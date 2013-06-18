@@ -43,8 +43,8 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "20:09:09  JUNE 17, 2013"
 set_global_assignment -name LAST_QUARTUS_VERSION 13.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
-set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (SystemVerilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_location_assignment PIN_L22 -to SW[0]
@@ -506,9 +506,19 @@ set_instance_assignment -name TSU_REQUIREMENT "10 ns" -from * -to *
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to *
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to I2C_SCLK
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to I2C_SDAT
-set_global_assignment -name VERILOG_FILE de1_top.v
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name VERILOG_FILE ../../dsp/mult32.v
+set_global_assignment -name VERILOG_FILE de1_top.v
+set_global_assignment -name QIP_FILE ../../dsp/mult16.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name EDA_TIME_SCALE "10 ns" -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH mult32_tb -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_NAME mult32_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id mult32_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "120 ns" -section_id mult32_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME mult32_tb -section_id mult32_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb

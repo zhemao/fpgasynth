@@ -55,22 +55,22 @@ end
 always @(*) begin
     case (step)
     0: begin
-        ax = alow;
-        bx = bhigh;
-        ay = ahigh;
-        by = blow;
+        ax <= alow;
+        bx <= bhigh;
+        ay <= ahigh;
+        by <= blow;
     end
     1: begin
-        ax = ahigh;
-        bx = bhigh;
-        ay = alow;
-        by = blow;
+        ax <= ahigh;
+        bx <= bhigh;
+        ay <= alow;
+        by <= blow;
     end
     default: begin
-        ax = 0;
-        bx = 0;
-        ay = 0;
-        by = 0;
+        ax <= 0;
+        bx <= 0;
+        ay <= 0;
+        by <= 0;
     end
     endcase
 end
