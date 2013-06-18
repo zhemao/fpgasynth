@@ -225,4 +225,11 @@ assign	AUD_BCLK	=	1'bz;
 assign	GPIO_0		=	36'hzzzzzzzzz;
 assign	GPIO_1		=	36'hzzzzzzzzz;
 
+mult32 mult (
+    .clk (CLOCK_50),
+    .reset (0),
+    .dataa (0),
+    .datab (0)
+);
+
 endmodule
