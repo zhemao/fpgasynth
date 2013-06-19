@@ -20,14 +20,14 @@ reg [2:0] step;
 reg sign;
 reg mult_reset;
 
-reg [23:0] manta;
-reg [23:0] mantb;
+reg [31:0] manta;
+reg [31:0] mantb;
 
 reg [7:0] expa;
 reg [7:0] expb;
 reg [8:0] expr;
 
-wire [47:0] mantp;
+wire [63:0] mantp;
 reg  [22:0] mantr;
 
 assign result = {sign, expr[7:0], mantr};
@@ -59,8 +59,8 @@ always @(posedge clk) begin
                 sign <= dataa[31] ^ datab[31];
                 expa <= dataa[30:23];
                 expb <= datab[30:23];
-                manta <= {1'b1, dataa[22:0]};
-                mantb <= {1'b1, datab[22:0]};
+                manta <= {9'b1, dataa[22:0]};
+                mantb <= {9'b1, datab[22:0]};
                 mult_reset <= 1;
                 step = step + 1;
             end
