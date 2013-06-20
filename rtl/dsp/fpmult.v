@@ -23,13 +23,15 @@ reg mult_reset;
 reg [31:0] manta;
 reg [31:0] mantb;
 
-reg [7:0] expa;
-reg [7:0] expb;
+reg [8:0] expa;
+reg [8:0] expb;
 reg [8:0] expr;
+wire [8:0] exps;
 
 wire [63:0] mantp;
 reg  [22:0] mantr;
 
+assign exps = expa + expb;
 assign result = {sign, expr[7:0], mantr};
 
 mult32 intmult (
@@ -57,38 +59,40 @@ always @(posedge clk) begin
                 step = last_step;
             end else begin
                 sign <= dataa[31] ^ datab[31];
-                expa <= dataa[30:23];
-                expb <= datab[30:23];
+                expa <= {1'b0, dataa[30:23]};
+                expb <= {1'b0, datab[30:23]};
                 manta <= {9'b1, dataa[22:0]};
                 mantb <= {9'b1, datab[22:0]};
                 mult_reset <= 1;
                 step = step + 1;
             end
-            1: begin 
-                expr <= expa + expb;
+            1: begin
                 mult_reset <= 0;
-                step = step + 1;
+                if (exps[8:7] == 2'b00) begin // underflow (expr <= 127)
+                    expr <= 0;
+                    mantr <= 0;
+                    done <= 1;
+                    step = last_step;
+                end else begin
+                    expa <= exps;
+                    expb <= -127;
+                    step = step + 1;
+                end
             end
-            2: if (expr[8:7] == 2'b00) begin // underflow (expr <= 127)
-                expr <= 0;
-                mantr <= 0;
-                done <= 1;
-                step = last_step;
-            end else begin
-                expr <= expr - 127;
-                step = step + 1;
-            end
-            3: if (expr[8] == 1'b1) begin // overflow (expr >= 256)
+            2: if (exps[8] == 1'b1) begin // overflow (expr >= 256)
                 expr <= {9 {1'b1}};
                 mantr <= 0;
                 done <= 1;
                 step = last_step;
             end else begin
+                expr <= exps;
+                expa <= exps;
+                expb <= 1;
                 step = step + 1;
             end
             5: if (mantp[47] == 1'b1) begin
                 mantr <= mantp[46:24];
-                expr <= expr + 1;
+                expr <= exps;
                 done <= 1;
                 step = step + 1;
             end else begin
