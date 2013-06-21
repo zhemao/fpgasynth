@@ -5,10 +5,10 @@ module priority_enc (
 );
 
 input [31:0] encoded;
-output reg [31:0] decoded;
+output reg [4:0] decoded;
 output reg triggered;
 
-reg [5:0] i;
+reg signed [5:0] i;
 
 always @(*) begin
     if (encoded == 0) begin
