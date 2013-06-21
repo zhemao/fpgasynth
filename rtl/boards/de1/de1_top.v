@@ -232,4 +232,11 @@ fpmult mult (
     .datab (0)
 );
 
+fpadd add (
+    .clk (CLOCK_50),
+    .reset (0),
+    .dataa (0),
+    .datab (0)
+);
+
 endmodule
