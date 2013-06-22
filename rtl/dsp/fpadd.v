@@ -112,13 +112,13 @@ always @(posedge clk) begin
             end
             1: begin
                 if (expdiff[8] == 0) begin
-                    manty <= shiftout;
+                    manty <= shiftout[25:0];
                 end else begin
-                    mantx <= shiftout;
+                    mantx <= shiftout[25:0];
                 end
                 // computing expr + 1
                 expx <= expr;
-                expy <= -1;
+                expy <= -8'd1;
                 step <= 2;
             end
             2: if (mantsum == 0) begin

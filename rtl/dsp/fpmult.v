@@ -42,7 +42,7 @@ mult32 intmult (
     .result (mantp)
 );
 
-parameter last_step = 6;
+parameter last_step = 3'd6;
 
 always @(posedge clk) begin
     if (reset == 1) begin
