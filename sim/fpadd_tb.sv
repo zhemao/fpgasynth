@@ -1,14 +1,14 @@
 module fpadd_tb ();
 
-wire [31:0] dataa = 32'h40200000;
-wire [31:0] datab = 32'hbfc00000;
+wire [31:0] dataa = 32'h3fa00000; // 1.25
+wire [31:0] datab = 32'h40200000; // 2.5
 wire [31:0] result;
 
 reg clk = 1;
 reg reset;
 wire done;
 
-parameter expected = 32'h3fc00000;
+parameter expected = 32'h40700000; // 3.75
 
 fpadd add (
 	.clk (clk),
