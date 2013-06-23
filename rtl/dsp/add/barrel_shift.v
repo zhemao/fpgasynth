@@ -7,9 +7,9 @@ module barrel_shift (
 
 // 1 means right shift, 0 means left shift
 input direction;
-input [22:0] shiftin;
+input [25:0] shiftin;
 input [4:0] shiftby;
-output reg [22:0] shiftout;
+output reg [25:0] shiftout;
 
 always @(*) begin
     if (direction == 1) begin

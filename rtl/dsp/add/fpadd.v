@@ -167,7 +167,7 @@ always @(posedge clk) begin
             end
             3: begin
                 shiftby <= encout;
-                shiftin <= mantsumu[22:0];
+                shiftin <= {1'b0, mantsumu};
                 shift_dir <= 0;
                 // expr + shiftby
                 expx <= expr;
@@ -176,7 +176,7 @@ always @(posedge clk) begin
                 step <= 4;
             end
             4: begin
-                mantr <= shiftout;
+                mantr <= shiftout[22:0];
                 expr <= expsumu;
                 done <= 1;
                 step <= 6;
