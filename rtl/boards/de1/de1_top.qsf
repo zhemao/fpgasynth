@@ -525,14 +525,14 @@ set_global_assignment -name EDA_TEST_BENCH_NAME fpadd_tb -section_id eda_simulat
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fpadd_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fpadd_tb -section_id fpadd_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "180 ns" -section_id fpadd_tb
-set_global_assignment -name VERILOG_FILE ../../dsp/fpadd.v
-set_global_assignment -name VERILOG_FILE ../../common/priority_enc.v
-set_global_assignment -name VERILOG_FILE ../../common/barrel_shift.v
-set_global_assignment -name QIP_FILE ../../dsp/altr/mult16.qip
-set_global_assignment -name VERILOG_FILE ../../dsp/fpmult.v
-set_global_assignment -name VERILOG_FILE ../../dsp/mult32.v
-set_global_assignment -name VERILOG_FILE de1_top.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpmult_tb.sv -section_id fpmult_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -section_id fpadd_tb
+set_global_assignment -name VERILOG_FILE ../../dsp/mult/mult32.v
+set_global_assignment -name VERILOG_FILE ../../dsp/mult/fpmult.v
+set_global_assignment -name QIP_FILE ../../dsp/mult/altr/mult16.qip
+set_global_assignment -name VERILOG_FILE ../../dsp/add/priority_enc.v
+set_global_assignment -name VERILOG_FILE ../../dsp/add/fpadd.v
+set_global_assignment -name VERILOG_FILE ../../dsp/add/barrel_shift.v
+set_global_assignment -name VERILOG_FILE de1_top.v
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
