@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 /* Convert floating point numbers from standard input into 
- * a hexadecimal version of their IEEE 754 single-precision representation */
+ * the verilog literal of its IEEE 754 single-precision representation */
 
 int main(void) {
 	float real;
@@ -12,7 +12,7 @@ int main(void) {
 
 	while (fscanf(stdin, "%f\n", &real) == 1) {
 		memcpy(&bits, &real, sizeof(bits));
-		printf("%x\n", bits);
+		printf("32'h%x\n", bits);
 	}
 
 	return 0;
