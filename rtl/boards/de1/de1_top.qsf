@@ -537,3 +537,4 @@ set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpmult_tb.sv -section_id fpmult_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -section_id fpadd_tb
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_SETUP_SCRIPT ../../../sim/fpadd_sim.do -section_id eda_simulation
