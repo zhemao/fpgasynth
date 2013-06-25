@@ -32,10 +32,10 @@ initial begin
 	datab[1] = 32'hbfa00000; // -1.25
 	datab[2] = 32'h3f800000; // 1
 	datab[3] = 32'h3d800000; // .0625
-	expected[0] = 32'h40700000;
-	expected[1] = 32'h3e800000;
-	expected[2] = 32'h3f880000;
-	expected[3] = 32'h3e000000;
+	expected[0] = 32'h40300000; // 2.75
+	expected[1] = 32'h3e800000; // .25
+	expected[2] = 32'h3f880000; // 1.0625
+	expected[3] = 32'h3e000000; // .125
 
 	for (ind = 0; ind < 4; ind++) begin
 		reset = 1;
