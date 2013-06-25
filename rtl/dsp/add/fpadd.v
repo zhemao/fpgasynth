@@ -71,12 +71,10 @@ barrel_shift shifter (
 
 reg [23:0] encin;
 wire [4:0] encout;
-wire enctrig;
 
 priority_enc encoder (
     .encoded (encin),
-    .decoded (encout),
-    .triggered (enctrig)
+    .decoded (encout)
 );
 
 reg signr;
