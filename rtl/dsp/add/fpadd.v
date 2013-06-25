@@ -98,36 +98,45 @@ always @(posedge clk) begin
         done <= 0;
     end else begin
         case (step)
-            0: if (expsum == 0) begin
-                expr <= expx;
-                step <= 2;
-            // expsum > 0 
-            end else if (expsum[8] == 0) begin
-                // expsumu < 32
-                if (expsumu[7:5] == 0) begin
+            0: begin
+                if (expsum == 0) begin
                     expr <= expx;
-                    shiftin <= manty;
-                    shiftby <= expsumu[4:0];
-                    shift_dir <= 1;
-                    step <= 1;
-                end else begin
-                    expr <= expx;
-                    manty <= 0;
+                    expy <= 8'd1;
                     step <= 2;
-                end
-            end else begin
-                // expsumu < 32
-                if (expsumu[7:5] == 0) begin
-                    expr <= expy;
-                    shiftin <= mantx;
-                    shiftby <= expsumu[4:0];
-                    shift_dir <= 1;
-                    step <= 1;
+                // expsum > 0 
+                end else if (expsum[8] == 0) begin
+                    // expsumu < 32
+                    if (expsumu[7:5] == 0) begin
+                        expr <= expx;
+                        expy <= 8'd1;
+                        shiftin <= manty;
+                        shiftby <= expsumu[4:0];
+                        shift_dir <= 1;
+                        step <= 1;
+                    end else begin
+                        expr <= expx;
+                        expy <= 8'd1;
+                        manty <= 0;
+                        step <= 2;
+                    end
                 end else begin
-                    expr <= expy;
-                    mantx <= 0;
-                    step <= 2;
+                    // expsumu < 32
+                    if (expsumu[7:5] == 0) begin
+                        expr <= expy;
+                        expx <= 8'd1;
+                        shiftin <= mantx;
+                        shiftby <= expsumu[4:0];
+                        shift_dir <= 1;
+                        step <= 1;
+                    end else begin
+                        expr <= expy;
+                        expx <= 8'd1;
+                        mantx <= 0;
+                        step <= 2;
+                    end
                 end
+                // computing expr + 1
+                expaddsub = 1;
             end
             1: begin
                 if (expsum[8] == 0) begin
@@ -135,10 +144,6 @@ always @(posedge clk) begin
                 end else begin
                     mantx <= shiftout;
                 end
-                // computing expr + 1
-                expx <= expr;
-                expy <= 8'd1;
-                expaddsub = 1;
                 step <= 2;
             end
             2: if (mantsum == 0) begin
@@ -169,10 +174,10 @@ always @(posedge clk) begin
                 shiftby <= encout;
                 shiftin <= {1'b0, mantsumu};
                 shift_dir <= 0;
-                // expr + shiftby
+                // expr - encout
                 expx <= expr;
-                expy <= {3'b0, shiftby};
-                expaddsub <= 1;
+                expy <= {3'b0, encout};
+                expaddsub <= 0;
                 step <= 4;
             end
             4: begin
