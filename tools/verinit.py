@@ -10,10 +10,6 @@ if __name__ == "__main__":
     else:
         varname = sys.argv[1]
 
-    print("initial begin")
-
     for i, line in enumerate(sys.stdin):
         code = "\t%s[%d] = %s;" % (varname, i, line.strip())
         print(code)
-
-    print("end")
