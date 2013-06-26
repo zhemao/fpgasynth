@@ -149,20 +149,26 @@ always @(posedge clk) begin
                 expr <= 0;
                 signr <= 0;
                 done <= 1;
-                step <= 6;
-            // overflow
+                step <= 7;
+            // mantissa overflow
             end else if (mantsumu[24] == 1) begin
                 signr <= mantsum[25];
-                mantr <= mantsumu[23:1];
-                expr <= expsumu;
+                if (expsum[8] == 0) begin
+                    mantr <= mantsumu[23:1];
+                    expr <= expsumu;
+                // exponent overflow
+                end else begin
+                    mantr <= 0;
+                    expr <= 8'hff;
+                end
                 done <= 1;
-                step <= 6;
+                step <= 7;
             // just right
             end else if (mantsumu[23] == 1) begin
                 signr <= mantsum[25];
                 mantr <= mantsumu[22:0];
                 done <= 1;
-                step <= 6;
+                step <= 7;
             end else begin
                 signr <= mantsum[25];
                 encin <= mantsumu[23:0];
@@ -179,10 +185,30 @@ always @(posedge clk) begin
                 step <= 4;
             end
             4: begin
-                mantr <= shiftout[22:0];
-                expr <= expsumu;
-                done <= 1;
+                if (expsum[8] == 0) begin
+                    mantr <= shiftout[22:0];
+                    expr <= expsumu;
+                    done <= 1;
+                    step <= 7;
+                // underflow
+                end else begin
+                    expx <= expsum[7:0];
+                    expy <= 1;
+                    expaddsub <= 1;
+                    step <= 5;
+                end
+            end
+            5: begin
+                shiftin <= shiftout;
+                shiftby <= expsumu[4:0];
+                shift_dir <= 1;
                 step <= 6;
+            end
+            6: begin
+                mantr <= shiftout;
+                expr <= 0;
+                done <= 1;
+                step <= 7;
             end
             default: begin
                 done = 1;
