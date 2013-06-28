@@ -1,4 +1,4 @@
-module sine (
+module sin (
     clk,
     reset,
     theta,
