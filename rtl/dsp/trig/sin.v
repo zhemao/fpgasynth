@@ -21,22 +21,22 @@ wire [2:0] alldone;
 
 always @(*) begin
     case (coeffind)
-        0:  coeff = 32'h3f800000;
-        1:  coeff = 32'hbe2aaaab;
-        2:  coeff = 32'h3c088889;
-        3:  coeff = 32'hb9500d01;
-        4:  coeff = 32'h3638ef1d;
-        5:  coeff = 32'hb2d7322b;
-        6:  coeff = 32'h2f309231;
-        7:  coeff = 32'hab573f9f;
-        8:  coeff = 32'h274a963c;
-        9:  coeff = 32'ha317a4da;
+        0: coeff = 32'h3f800000;
+        1: coeff = 32'hbe2aaaab;
+        2: coeff = 32'h3c088889;
+        3: coeff = 32'hb9500d01;
+        4: coeff = 32'h3638ef1d;
+        5: coeff = 32'hb2d7322b;
+        6: coeff = 32'h2f309231;
+        7: coeff = 32'hab573fa0;
+        8: coeff = 32'h274a963c;
+        9: coeff = 32'ha317a4db;
         10: coeff = 32'h1eb8dc78;
-        11: coeff = 32'h9a3b0da1;
-        12: coeff = 32'h159f9e67;
-        13: coeff = 32'h90e8d58e;
-        14: coeff = 32'h0c12cfcc;
-        15: coeff = 32'h8721a697;
+        11: coeff = 32'h9a3b0da0;
+        12: coeff = 32'h159f9e66;
+        13: coeff = 32'h90e8d58d;
+        14: coeff = 32'h0c12cfcb;
+        15: coeff = 32'h8721a696;
     endcase
 end
 
