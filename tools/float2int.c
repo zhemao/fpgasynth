@@ -12,7 +12,7 @@ int main(void) {
 
 	while (fscanf(stdin, "%f\n", &real) == 1) {
 		memcpy(&bits, &real, sizeof(bits));
-		printf("32'h%x\n", bits);
+		printf("32'h%.8x\n", bits);
 	}
 
 	return 0;
