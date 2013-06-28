@@ -1,6 +1,6 @@
 CFLAGS=-Wall -O2
 
-TOOLS=float2int int2float gensincoeff
+TOOLS=float2int int2float sinsim gensincoeff
 
 all: $(TOOLS)
 
