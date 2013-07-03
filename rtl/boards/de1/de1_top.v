@@ -63,7 +63,8 @@ module de1_top
 		UART_TXD,						//	UART Transmitter
 		UART_RXD,						//	UART Receiver
 		/////////////////////	SDRAM Interface		////////////////
-		DRAM_DQ,						//	SDRAM Data bus 16 Bits
+		DRAM_DQ,		
+				//	SDRAM Data bus 16 Bits
 		DRAM_ADDR,						//	SDRAM Address bus 12 Bits
 		DRAM_LDQM,						//	SDRAM Low-byte Data Mask 
 		DRAM_UDQM,						//	SDRAM High-byte Data Mask
@@ -161,7 +162,8 @@ output			DRAM_CKE;				//	SDRAM Clock Enable
 inout	[7:0]	FL_DQ;					//	FLASH Data bus 8 Bits
 output	[21:0]	FL_ADDR;				//	FLASH Address bus 22 Bits
 output			FL_WE_N;				//	FLASH Write Enable
-output			FL_RST_N;				//	FLASH Reset
+output			FL_RST_N;
+				//	FLASH Reset
 output			FL_OE_N;				//	FLASH Output Enable
 output			FL_CE_N;				//	FLASH Chip Enable
 ////////////////////////	SRAM Interface	////////////////////////
@@ -225,18 +227,11 @@ assign	AUD_BCLK	=	1'bz;
 assign	GPIO_0		=	36'hzzzzzzzzz;
 assign	GPIO_1		=	36'hzzzzzzzzz;
 
-fpmult mult (
+sin sinunit (
     .clk (CLOCK_50),
     .reset (0),
-    .dataa (0),
-    .datab (0)
-);
-
-fpadd add (
-    .clk (CLOCK_50),
-    .reset (0),
-    .dataa (0),
-    .datab (0)
+    .theta (0),
+    .prec (0)
 );
 
 endmodule

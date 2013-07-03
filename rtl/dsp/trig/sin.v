@@ -3,7 +3,8 @@ module sin (
     reset,
     theta,
     prec,
-    result
+    result,
+    done
 );
 
 input clk;
@@ -11,6 +12,7 @@ input reset;
 input [31:0] theta;
 input [3:0] prec;
 output [31:0] result;
+output done;
 
 reg [31:0] coeff;
 reg [3:0] coeffind;
@@ -41,13 +43,13 @@ always @(*) begin
 end
 
 reg [31:0] square;
-reg [31:0] lastpower;
+reg [31:0] last_power;
 wire [31:0] power_res;
 reg power_mult_rst = 0;
 
 fpmult power_mult (
     .dataa (square),
-    .datab (lastpower),
+    .datab (last_power),
     .reset (power_mult_rst),
     .clk (clk),
     .result (power_res),
@@ -70,7 +72,7 @@ fpmult term_mult (
 reg [31:0] accum;
 reg [31:0] accum_next;
 reg add_rst;
-wire [31:0] add_res = 0;
+wire [31:0] add_res;
 
 fpadd accum_add (
     .dataa (accum),
@@ -83,11 +85,13 @@ fpadd accum_add (
 
 assign result = accum;
 
-parameter DONE = 3'b000, INIT = 3'b001, NEXTSTEP = 3'b010, WAIT = 3'b011,
+parameter IDLE = 3'b000, INIT = 3'b001, NEXTSTEP = 3'b010, WAIT = 3'b011,
           FINSQUARE = 3'b100, FINCUBE = 3'b101, FINCUBECOEFF = 3'b110;
 
-reg [2:0] state = DONE;
+reg [2:0] state = IDLE;
 reg [2:0] ret_state;
+
+assign done = (state == IDLE) ? 1'b1 : 1'b0;
 
 always @(posedge clk) begin
     if (reset == 1) begin
@@ -96,7 +100,7 @@ always @(posedge clk) begin
         case (state)
         INIT: begin
             square <= theta;
-            lastpower <= theta;
+            last_power <= theta;
             term_power <= theta;
             coeffind <= 0;
             power_mult_rst = 1;
@@ -109,7 +113,7 @@ always @(posedge clk) begin
             square <= power_res;
 
             if (prec == 0) begin
-                state <= DONE;
+                state <= IDLE;
             end else begin
                 power_mult_rst = 1;
                 state <= WAIT;
@@ -138,13 +142,13 @@ always @(posedge clk) begin
             ret_state <= NEXTSTEP;
         end
         NEXTSTEP: begin
-            accum <= accum_res;
+            accum <= add_res;
             accum_next <= term_res;
             last_power <= power_res;
             term_power <= power_res;
 
             if (lastind == prec) begin
-                state <= DONE;
+                state <= IDLE;
             end else begin
                 coeffind <= nextind;
                 power_mult_rst <= 1;
@@ -161,7 +165,9 @@ always @(posedge clk) begin
                 state <= ret_state;
             end
         end
-        default: state = DONE;
+        default: state = IDLE;
         endcase
     end
 end
+
+endmodule
