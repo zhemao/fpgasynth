@@ -519,7 +519,7 @@ set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "120 ns" -section_id mult
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME mult32_tb -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_NAME fpmult_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fpmult_tb
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "180 ns" -section_id fpmult_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "700 ns" -section_id fpmult_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fpmult_tb -section_id fpmult_tb
 set_global_assignment -name EDA_TEST_BENCH_NAME fpadd_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fpadd_tb
