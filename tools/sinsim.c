@@ -15,11 +15,18 @@ float factorial(int n)
 	return res;
 }
 
+void print_float_hex(FILE * stream, float num)
+{
+	uint32_t bits;
+
+	memcpy(&bits, &num, sizeof(bits));
+	fprintf(stream, "32'h%.8x\n", bits);
+}
+
 int main(int argc, char *argv[])
 {
 	float theta, square, result, power, coeff, fact;
 	int prec, i;
-	uint32_t result_bits;
 
 	if (argc < 3) {
 		fprintf(stderr, "Usage: %s theta prec\n", argv[0]);
@@ -40,9 +47,7 @@ int main(int argc, char *argv[])
 		power *= square;
 	}
 
-	memcpy(&result_bits, &result, sizeof(result));
-
-	printf("32'h%.8x\n", result_bits);
+	print_float_hex(stdout, result);
 
 	return 0;
 }
