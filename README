@@ -1,0 +1,11 @@
+FPGA Synth
+
+This is an experiment in hardware audio synthesis using direct floating point 
+computation of sinusoids. All floating point operations are implemented in
+verilog.
+
+Currently implemented is a hardware unit for computing sinusoids.
+
+The eventual target is an Altera DE1 development board. Once I obtain the
+FPGA board, I will start adding the necessary hardware components to produce
+the sound.
