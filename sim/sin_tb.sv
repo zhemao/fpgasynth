@@ -28,8 +28,8 @@ initial begin
 	prec[1] = 4'h9;
 	prec[2] = 4'h7;
 	expected[0] = 32'h00000000;
-	expected[1] = 32'h3f576aa5;
-	expected[2] = 32'h3f6e9a1c;
+	expected[1] = 32'h3f576aa4;
+	expected[2] = 32'h3f6e9a1d;
 
 	for (ind = 0; ind < 3; ind++) begin
 		reset = 1;
