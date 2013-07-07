@@ -21,6 +21,8 @@ wire [7:0] expa = dataa[30:23];
 wire [7:0] expb = datab[30:23];
 wire [22:0] manta = dataa[22:0];
 wire [22:0] mantb = datab[22:0];
+wire denormala = (expa == 0) ? 1 : 0;
+wire denormalb = (expb == 0) ? 1 : 0;
 
 wire [25:0] manta_dec;
 wire [25:0] mantb_dec;
@@ -28,12 +30,14 @@ wire [25:0] mantb_dec;
 mantissa_decode mantdeca (
     .sign (signa),
     .mantissa (manta),
+    .denormal (denormala),
     .result (manta_dec)
 );
 
 mantissa_decode mantdecb (
     .sign (signb),
     .mantissa (mantb),
+    .denormal (denormalb),
     .result (mantb_dec)
 );
 
