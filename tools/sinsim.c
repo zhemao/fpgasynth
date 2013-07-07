@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 float factorial(int n)
 {
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
 {
 	float theta, square, result, power, coeff, fact;
 	int prec, i;
+	uint32_t result_bits;
 
 	if (argc < 3) {
 		fprintf(stderr, "Usage: %s theta prec\n", argv[0]);
@@ -38,7 +40,9 @@ int main(int argc, char *argv[])
 		power *= square;
 	}
 
-	printf("%f\n", result);
+	memcpy(&result_bits, &result, sizeof(result));
+
+	printf("32'h%.8x\n", result_bits);
 
 	return 0;
 }

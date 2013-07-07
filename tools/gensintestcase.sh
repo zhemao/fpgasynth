@@ -19,4 +19,4 @@ cut -d " " -f 2 $INPUTFILE | conv_prec | ./verinit.py prec
 while read theta prec
 do
 	./sinsim $theta $prec
-done < $1 | ./float2int | ./verinit.py expected
+done < $1 | ./verinit.py expected
