@@ -152,6 +152,7 @@ always @(posedge clk) begin
             if (lastind == prec_intern) begin
                 state <= IDLE;
             end else begin
+                lastind <= coeffind;
                 coeffind <= nextind;
                 power_mult_rst <= 1;
                 term_mult_rst <= 1;
