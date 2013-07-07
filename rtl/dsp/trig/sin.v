@@ -18,6 +18,7 @@ reg [31:0] coeff;
 reg [3:0] coeffind;
 reg [3:0] lastind;
 wire [3:0] nextind = coeffind + 1;
+reg [3:0] prec_intern;
 
 wire [2:0] alldone;
 
@@ -107,12 +108,13 @@ always @(posedge clk) begin
             term_mult_rst = 1;
             state <= WAIT;
             ret_state <= FINSQUARE;
+            prec_intern <= prec;
         end
         FINSQUARE: begin
             accum <= term_res;
             square <= power_res;
 
-            if (prec == 0) begin
+            if (prec_intern == 0) begin
                 state <= IDLE;
             end else begin
                 power_mult_rst = 1;
@@ -147,7 +149,7 @@ always @(posedge clk) begin
             last_power <= power_res;
             term_power <= power_res;
 
-            if (lastind == prec) begin
+            if (lastind == prec_intern) begin
                 state <= IDLE;
             end else begin
                 coeffind <= nextind;
