@@ -537,9 +537,10 @@ set_global_assignment -name VERILOG_FILE de1_top.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_NAME sin_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id sin_tb
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "5 us" -section_id sin_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1 us" -section_id sin_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME sin_tb -section_id sin_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpmult_tb.sv -section_id fpmult_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -section_id fpadd_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/sin_tb.sv -section_id sin_tb
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_SETUP_SCRIPT ../../../sim/sin_sim.tcl -section_id eda_simulation
