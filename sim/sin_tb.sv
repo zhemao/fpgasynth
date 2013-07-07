@@ -37,7 +37,7 @@ initial begin
 		while (done == 0) begin
 			#20000;
 		end
-		assert (result == expected[ind]);
+		assert (result[31:3] == expected[ind][31:3]);
 	end
 end
 
