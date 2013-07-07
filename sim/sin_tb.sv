@@ -1,7 +1,7 @@
 module sin_tb ();
 
 reg [31:0] theta [0:2];
-reg [31:0] prec [0:2];
+reg [3:0] prec [0:2];
 reg [31:0] expected [0:2];
 reg clk = 1'b1;
 reg reset;
@@ -24,9 +24,9 @@ initial begin
 	theta[0] = 32'h00000000;
 	theta[1] = 32'h3f800000;
 	theta[2] = 32'h3f99999a;
-	prec[0] = 32'h41200000;
-	prec[1] = 32'h41100000;
-	prec[2] = 32'h40e00000;
+	prec[0] = 4'hA;
+	prec[1] = 4'h9;
+	prec[2] = 4'h7;
 	expected[0] = 32'h00000000;
 	expected[1] = 32'h3f576aa5;
 	expected[2] = 32'h3f6e9a1c;
