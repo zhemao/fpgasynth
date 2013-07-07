@@ -87,7 +87,8 @@ fpadd accum_add (
 assign result = accum;
 
 parameter IDLE = 3'b000, INIT = 3'b001, NEXTSTEP = 3'b010, WAIT = 3'b011,
-          FINSQUARE = 3'b100, FINCUBE = 3'b101, FINCUBECOEFF = 3'b110;
+          FINSQUARE = 3'b100, FINCUBE = 3'b101, FINCUBECOEFF = 3'b110, 
+          RESET_STEP = 3'b111;
 
 reg [2:0] state = IDLE;
 reg [2:0] ret_state;
@@ -106,7 +107,7 @@ always @(posedge clk) begin
             coeffind <= 0;
             power_mult_rst = 1;
             term_mult_rst = 1;
-            state <= WAIT;
+            state <= RESET_STEP;
             ret_state <= FINSQUARE;
             prec_intern <= prec;
         end
@@ -118,7 +119,7 @@ always @(posedge clk) begin
                 state <= IDLE;
             end else begin
                 power_mult_rst = 1;
-                state <= WAIT;
+                state <= RESET_STEP;
                 ret_state <= FINCUBE;
             end
         end
@@ -128,7 +129,7 @@ always @(posedge clk) begin
             coeffind <= 1;
             power_mult_rst <= 1;
             term_mult_rst <= 1;
-            state <= WAIT;
+            state <= RESET_STEP;
             ret_state <= FINCUBECOEFF;
         end
         FINCUBECOEFF: begin
@@ -140,7 +141,7 @@ always @(posedge clk) begin
             power_mult_rst <= 1;
             term_mult_rst <= 1;
             add_rst <= 1;
-            state <= WAIT;
+            state <= RESET_STEP;
             ret_state <= NEXTSTEP;
         end
         NEXTSTEP: begin
@@ -157,8 +158,11 @@ always @(posedge clk) begin
                 power_mult_rst <= 1;
                 term_mult_rst <= 1;
                 add_rst <= 1;
-                state <= WAIT;
+                state <= RESET_STEP;
             end
+        end
+        RESET_STEP: begin
+            state <= WAIT;
         end
         WAIT: begin
             power_mult_rst <= 0;
