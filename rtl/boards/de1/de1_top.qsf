@@ -512,7 +512,7 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name EDA_TIME_SCALE "10 ns" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH floattoint_tb -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH fpcomp_tb -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME mult32_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "120 ns" -section_id mult32_tb
@@ -529,15 +529,10 @@ set_global_assignment -name EDA_TEST_BENCH_NAME sin_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id sin_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1 us" -section_id sin_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME sin_tb -section_id sin_tb
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_SETUP_SCRIPT ../../../sim/floattoint_sim.tcl -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME floattoint_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id floattoint_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME floattoint_tb -section_id floattoint_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpmult_tb.sv -section_id fpmult_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -section_id fpadd_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/sin_tb.sv -section_id sin_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/floattoint_tb.sv -section_id floattoint_tb
+set_global_assignment -name VERILOG_FILE ../../dsp/misc/fpcomp.v
 set_global_assignment -name VERILOG_FILE ../../dsp/misc/floattoint.v
 set_global_assignment -name VERILOG_FILE ../../dsp/trig/sin.v
 set_global_assignment -name VERILOG_FILE ../../dsp/add/mantissa_decode.v
@@ -548,4 +543,15 @@ set_global_assignment -name VERILOG_FILE ../../dsp/add/priority_enc.v
 set_global_assignment -name VERILOG_FILE ../../dsp/add/fpadd.v
 set_global_assignment -name VERILOG_FILE ../../dsp/add/barrel_shift.v
 set_global_assignment -name VERILOG_FILE de1_top.v
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name EDA_TEST_BENCH_NAME fpcomp_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fpcomp_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fpcomp_tb -section_id fpcomp_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/mult32_tb.sv -section_id mult32_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpmult_tb.sv -section_id fpmult_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -section_id fpadd_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/sin_tb.sv -section_id sin_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/floattoint_tb.sv -section_id floattoint_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpcomp_tb.sv -section_id fpcomp_tb
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

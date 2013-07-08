@@ -238,4 +238,9 @@ floattoint converter (
     .floatin (0)
 );
 
+fpcomp compare (
+    .dataa (0),
+    .datab (0)
+);
+
 endmodule
