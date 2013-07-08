@@ -234,4 +234,8 @@ sin sinunit (
     .prec (0)
 );
 
+floattoint converter (
+    .floatin (0)
+);
+
 endmodule
