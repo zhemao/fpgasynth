@@ -1,4 +1,4 @@
-module priority_enc (
+module priority_enc24 (
     encoded,
     decoded
 );

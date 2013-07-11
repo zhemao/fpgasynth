@@ -76,7 +76,7 @@ barrel_shift shifter (
 reg [23:0] encin;
 wire [4:0] encout;
 
-priority_enc encoder (
+priority_enc24 encoder (
     .encoded (encin),
     .decoded (encout)
 );
