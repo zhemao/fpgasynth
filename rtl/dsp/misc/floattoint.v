@@ -26,7 +26,7 @@ reg finished;
 
 assign done = finished;
 
-always @(*) begin
+always @(posedge clk) begin
     if (reset == 1) begin
         if (exp == 8'h7f) begin // (exp == 127)
             mant_res <= {15'b1, 9'b0}; // truncate to 1
