@@ -9,7 +9,7 @@ INPUTFILE=$1
 function conv_prec {
 	while read prec
 	do
-		echo "4'h$(echo "obase=16; $prec" | bc)"
+		printf "4'h%x\n" $prec
 	done
 }
 
