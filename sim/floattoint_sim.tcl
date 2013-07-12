@@ -1,7 +1,10 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
+add wave -noupdate /floattoint_tb/clk
+add wave -noupdate /floattoint_tb/reset
 add wave -noupdate /floattoint_tb/floatin
 add wave -noupdate /floattoint_tb/intout
+add wave -noupdate /floattoint_tb/done
 add wave -noupdate /floattoint_tb/converter/exp
 add wave -noupdate /floattoint_tb/converter/mant_res
 add wave -noupdate /floattoint_tb/converter/resultu
@@ -24,4 +27,4 @@ configure wave -timelineunits ns
 update
 WaveRestoreZoom {0 ps} {579744 ps}
 
-run 200 ns
+run 600 ns
