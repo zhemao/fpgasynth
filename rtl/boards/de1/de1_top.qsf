@@ -512,7 +512,7 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name EDA_TIME_SCALE "10 ns" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH fpcomp_tb -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH floattoint_tb -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME mult32_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id mult32_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "120 ns" -section_id mult32_tb
@@ -543,6 +543,10 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpadd_tb.sv -sectio
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/sin_tb.sv -section_id sin_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/floattoint_tb.sv -section_id floattoint_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpcomp_tb.sv -section_id fpcomp_tb
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_SETUP_SCRIPT ../../../sim/floattoint_sim.tcl -section_id eda_simulation
+set_global_assignment -name VERILOG_FILE ../../dsp/misc/priority_enc15.v
+set_global_assignment -name VERILOG_FILE ../../dsp/misc/inttofloat.v
+set_global_assignment -name VERILOG_FILE ../../dsp/add/priority_enc24.v
 set_global_assignment -name VERILOG_FILE ../../synth/audio_codec.v
 set_global_assignment -name VERILOG_FILE ../../dsp/misc/fpcomp.v
 set_global_assignment -name VERILOG_FILE ../../dsp/misc/floattoint.v
@@ -551,7 +555,6 @@ set_global_assignment -name VERILOG_FILE ../../dsp/add/mantissa_decode.v
 set_global_assignment -name VERILOG_FILE ../../dsp/mult/mult32.v
 set_global_assignment -name VERILOG_FILE ../../dsp/mult/fpmult.v
 set_global_assignment -name QIP_FILE ../../dsp/mult/altr/mult16.qip
-set_global_assignment -name VERILOG_FILE ../../dsp/add/priority_enc.v
 set_global_assignment -name VERILOG_FILE ../../dsp/add/fpadd.v
 set_global_assignment -name VERILOG_FILE ../../dsp/add/barrel_shift.v
 set_global_assignment -name VERILOG_FILE de1_top.v

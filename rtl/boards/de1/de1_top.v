@@ -234,13 +234,21 @@ sin sinunit (
     .prec (0)
 );
 
-floattoint converter (
+floattoint f2i (
     .floatin (0)
+);
+
+inttofloat i2f (
+    .intin (0)
 );
 
 fpcomp compare (
     .dataa (0),
     .datab (0)
+);
+
+audio_codec (
+    .clk (CLOCK_50)
 );
 
 endmodule
