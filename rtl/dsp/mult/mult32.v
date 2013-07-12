@@ -48,7 +48,7 @@ always @(posedge clk) begin
     if (reset == 1) begin
         step = 0;
     end else if (step != 3) begin
-        step = step + 1;
+        step = step + 1'b1;
     end
 end
 

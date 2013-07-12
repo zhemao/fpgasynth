@@ -21,8 +21,8 @@ wire [7:0] expa = dataa[30:23];
 wire [7:0] expb = datab[30:23];
 wire [22:0] manta = dataa[22:0];
 wire [22:0] mantb = datab[22:0];
-wire denormala = (expa == 0) ? 1 : 0;
-wire denormalb = (expb == 0) ? 1 : 0;
+wire denormala = (expa == 0) ? 1'b1 : 1'b0;
+wire denormalb = (expb == 0) ? 1'b1 : 1'b0;
 
 wire [25:0] manta_dec;
 wire [25:0] mantb_dec;
@@ -209,7 +209,7 @@ always @(posedge clk) begin
                 step <= 6;
             end
             6: begin
-                mantr <= shiftout;
+                mantr <= shiftout[22:0];
                 expr <= 0;
                 done <= 1;
                 step <= 7;

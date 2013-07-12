@@ -43,7 +43,7 @@ always @(posedge clk) begin
         if (shiftby == 0) begin
             mant_res <= mant;
         end else if (shiftby[8] == 0) begin
-            mant_res <= mant >> shiftby;
+            mant_res <= mant >> shiftby[7:0];
         end else begin
             mant_res <= {24 {1'b1}};
         end

@@ -44,6 +44,7 @@ wire [15:0] shift_in_avg = shift_in_left[15:1] + shift_in_right[15:1];
 assign AUD_ADCLRCK = lrck;
 assign AUD_DACLRCK = lrck;
 assign AUD_BCLK = bclk_divider[2];
+assign AUD_DACDAT = shift_out[15];
 
 always @(posedge clk) begin
     if (reset_n == 0) begin

@@ -64,7 +64,7 @@ always @(posedge clk) begin
                 manta <= {9'b1, dataa[22:0]};
                 mantb <= {9'b1, datab[22:0]};
                 mult_reset <= 1;
-                step = step + 1;
+                step = step + 1'b1;
             end
             1: begin
                 mult_reset <= 0;
@@ -75,8 +75,8 @@ always @(posedge clk) begin
                     step = last_step;
                 end else begin
                     expa <= exps;
-                    expb <= -127;
-                    step = step + 1;
+                    expb <= -9'd127;
+                    step = step + 1'b1;
                 end
             end
             2: if (exps[8] == 1'b1) begin // overflow (expr >= 256)
@@ -88,20 +88,20 @@ always @(posedge clk) begin
                 expr <= exps;
                 expa <= exps;
                 expb <= 1;
-                step = step + 1;
+                step = step + 1'b1;
             end
             5: if (mantp[47] == 1'b1) begin
                 mantr <= mantp[46:24];
                 expr <= exps;
                 done <= 1;
-                step = step + 1;
+                step = step + 1'b1;
             end else begin
                 mantr <= mantp[45:23];
                 done <= 1;
-                step = step + 1;
+                step = step + 1'b1;
             end
             last_step: done = 1;
-            default: step = step + 1;
+            default: step = step + 1'b1;
         endcase
     end
 end

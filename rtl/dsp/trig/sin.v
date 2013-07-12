@@ -17,7 +17,7 @@ output done;
 reg [31:0] coeff;
 reg [3:0] coeffind;
 reg [3:0] lastind;
-wire [3:0] nextind = coeffind + 1;
+wire [3:0] nextind = coeffind + 1'b1;
 reg [3:0] prec_intern;
 
 wire [2:0] alldone;
