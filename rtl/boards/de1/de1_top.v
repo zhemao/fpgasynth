@@ -247,7 +247,7 @@ fpcomp compare (
     .datab (0)
 );
 
-audio_codec (
+audio_codec codec (
     .clk (CLOCK_50)
 );
 
