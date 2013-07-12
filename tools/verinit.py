@@ -11,5 +11,5 @@ if __name__ == "__main__":
         varname = sys.argv[1]
 
     for i, line in enumerate(sys.stdin):
-        code = "\t%s[%d] = %s;" % (varname, i, line.strip())
+        code = "%s[%d] = %s;" % (varname, i, line.strip())
         print(code)
