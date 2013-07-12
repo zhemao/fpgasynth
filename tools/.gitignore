@@ -1,5 +1,5 @@
-/float2int
-/int2float
+/float2hex
+/hex2float
 /gensincoeff
 /sinsim
 *.txt

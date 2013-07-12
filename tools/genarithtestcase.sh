@@ -6,7 +6,7 @@ function geninit {
 	i=$1
 	file=$2
 	j=$(($i-1))
-	cut -d " " -f $i $file | ./float2int | ./verinit.py ${varnames[$j]}
+	cut -d " " -f $i $file | ./float2hex | ./verinit.py ${varnames[$j]}
 }
 
 function repeat {
