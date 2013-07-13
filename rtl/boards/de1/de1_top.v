@@ -251,4 +251,8 @@ audio_codec codec (
     .clk (CLOCK_50)
 );
 
+wave_gen wg (
+    .clk (CLOCK_50)
+);
+
 endmodule
