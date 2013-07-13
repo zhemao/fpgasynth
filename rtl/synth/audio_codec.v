@@ -15,7 +15,7 @@ module audio_codec (
 
 input clk;
 input reset_n;
-output sample_end;
+output [1:0] sample_end;
 input [15:0] audio_output;
 output reg [15:0] audio_input;
 // 1 - left, 0 - right
@@ -54,11 +54,8 @@ always @(posedge clk) begin
     end
 end
 
-wire left_chan_end = (lrck_divider == 8'h7e) ? 1'b1 : 1'b0;
-wire right_chan_end = (lrck_divider == 8'hfe) ? 1'b1 : 1'b0;
-
-assign sample_end = ((left_chan_end & channel_sel[1]) | 
-                        (right_chan_end & channel_sel[0]));
+assign sample_end[1] = (lrck_divider == 8'h7e) ? 1'b1 : 1'b0;
+assign sample_end[0] = (lrck_divider == 8'hfe) ? 1'b1 : 1'b0;
 
 wire clr_lrck = (lrck_divider == 8'h7f) ? 1'b1 : 1'b0;
 wire set_lrck = (lrck_divider == 8'hff) ? 1'b1 : 1'b0;
