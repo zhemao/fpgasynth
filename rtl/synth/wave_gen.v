@@ -4,7 +4,8 @@ module wave_gen (
     aud_req,
     aud_step,
     aud_amp,
-    aud_data
+    aud_data,
+    aud_done
 );
 
 input clk;
@@ -14,18 +15,11 @@ input [31:0] aud_step;
 input [31:0] aud_amp;
 
 output reg [15:0] aud_data;
+output aud_done;
 
 parameter NEGPI = 32'hc0490fdb, HALFPI = 32'h3fc90fdb;
 
 reg [31:0] theta;
-
-wire overshoot;
-
-fpcomp magcomp (
-    .dataa (theta),
-    .datab (HALFPI),
-    .geq (overshoot)
-);
 
 reg sum_in_sel;
 reg sum_reset;
@@ -41,6 +35,14 @@ fpadd summer (
     .datab (sum_datab),
     .result (sum_result),
     .done (sum_done)
+);
+
+wire overshoot;
+
+fpcomp magcomp (
+    .dataa (sum_result),
+    .datab (HALFPI),
+    .geq (overshoot)
 );
 
 reg sin_reset;
@@ -90,25 +92,26 @@ floattoint conv (
 
 reg [15:0] next_samp;
 
-wire [3:0] all_done = {sum_done, sin_done, mult_done, conv_done};
-reg [3:0] last_done;
-reg [3:0] done_trigger;
+reg [2:0] sum_state;
+reg [2:0] sin_state;
+reg [2:0] scale_state;
 
-reg [1:0] sum_state;
-reg [1:0] sin_state;
-reg [1:0] scale_state;
+parameter WAIT_BEGIN = 3'b000, TRIGGER_BEGIN = 3'b001, 
+          WAIT_MIDDLE = 3'b010, TRIGGER_MIDDLE = 3'b011,
+          WAIT_END = 3'b100;
 
-parameter WAIT = 2'b00, TRIGGER = 2'b01, CHECK_OVERSHOOT = 2'b10;
+wire sum_finished = (sum_state == WAIT_BEGIN) ? 1'b1 : 1'b0;
+wire sin_finished = (sin_state == WAIT_BEGIN) ? 1'b1 : 1'b0;
+wire scale_finished = (scale_state == WAIT_BEGIN) ? 1'b1 : 1'b0;
+
+assign aud_done = sum_finished & sin_finished & scale_finished;
 
 // handle sum
 always @(posedge clk) begin
-    last_done <= all_done;
-    done_trigger <= !last_done & all_done;
-    
     if (reset == 1'b1) begin
-        sum_state <= WAIT;
-        sin_state <= WAIT;
-        scale_state <= WAIT;
+        sum_state <= WAIT_BEGIN;
+        sin_state <= WAIT_BEGIN;
+        scale_state <= WAIT_BEGIN;
         theta <= 32'h0;
         base_samp <= 32'h0;
         scaled_samp <= 32'h0;
@@ -116,53 +119,72 @@ always @(posedge clk) begin
         aud_data <= 16'h0;
     end else begin
         case (sum_state)
-        WAIT :  if (aud_req == 1'b1) begin
+        WAIT_BEGIN :  if (aud_req == 1'b1) begin
             sum_reset <= 1'b1;
             sum_in_sel <= 1'b1;
-            sum_state <= TRIGGER;
-        end else if (done_trigger[3] == 1'b1) begin
-            sum_state <= CHECK_OVERSHOOT;
-            theta <= sum_result;
+            sum_state <= TRIGGER_BEGIN;
         end
-        TRIGGER : begin
+        TRIGGER_BEGIN : begin
             sum_reset <= 1'b0;
-            sum_state <= WAIT;
+            sum_state <= WAIT_MIDDLE;
         end
-        CHECK_OVERSHOOT : if (overshoot == 1'b1) begin
-            sum_in_sel <= 1'b1;
-            sum_reset <= 1'b1;
-            sum_state <= TRIGGER;
+        WAIT_MIDDLE : if (sum_done == 1'b1) begin
+            theta <= sum_result;
+            if (overshoot == 1'b1) begin
+                sum_in_sel <= 1'b0;
+                sum_reset <= 1'b1;
+                sum_state <= TRIGGER_MIDDLE;
+            end else begin
+                sum_state <= WAIT_BEGIN;
+            end
+        end
+        TRIGGER_MIDDLE : begin
+            sum_reset <= 1'b0;
+            sum_state <= WAIT_END;
+        end
+        WAIT_END : if (sum_done == 1'b1) begin
+            theta <= sum_result;
+            sum_state <= WAIT_BEGIN;
         end
         endcase
+        
         case (sin_state)
-        WAIT : if (aud_req == 1'b1) begin
+        WAIT_BEGIN : if (aud_req == 1'b1) begin
             sin_reset <= 1'b1;
-            sin_state <= TRIGGER;
-        end else if (done_trigger[2]) begin
-            base_samp <= sin_result;
+            sin_state <= TRIGGER_BEGIN;
         end
-        TRIGGER : begin
+        TRIGGER_BEGIN : begin
             sin_reset <= 1'b0;
-            sin_state <= WAIT;
+            sin_state <= WAIT_END;
+        end
+        WAIT_END : if (sin_done == 1'b1) begin
+            base_samp <= sin_result;
+            sin_state <= WAIT_BEGIN;
         end
         endcase
+        
         case (scale_state)
-        WAIT : if (aud_req == 1'b1) begin
+        WAIT_BEGIN : if (aud_req == 1'b1) begin
             mult_reset <= 1'b1;
-            scale_state <= TRIGGER;
+            scale_state <= TRIGGER_BEGIN;
             aud_data <= next_samp;
-        // mult is finished
-        end else if (done_trigger[1] == 1'b1) begin
+        end
+        TRIGGER_BEGIN : begin
+            mult_reset <= 1'b0;
+            scale_state <= WAIT_MIDDLE;
+        end
+        WAIT_MIDDLE : if (mult_done == 1'b1) begin
             scaled_samp <= mult_result;
             conv_reset <= 1'b1;
-            scale_state <= TRIGGER;
-        end else if (done_trigger[0] == 1'b1) begin
-            next_samp <= conv_result;
+            scale_state <= TRIGGER_MIDDLE;
         end
-        TRIGGER : begin
-            mult_reset <= 1'b0;
+        TRIGGER_MIDDLE : begin
             conv_reset <= 1'b0;
-            scale_state <= WAIT;
+            scale_state <= WAIT_END;
+        end
+        WAIT_END : if (conv_done == 1'b1) begin
+            next_samp <= conv_result;
+            scale_state <= WAIT_BEGIN;
         end
         endcase
     end
