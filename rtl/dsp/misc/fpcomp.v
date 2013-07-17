@@ -45,7 +45,7 @@ always @(*) begin
         if (mantdiff == 0) begin
             result <= 2'b11;
         // a > b
-        end else if (mantdiff[8] == 0) begin
+        end else if (mantdiff[23] == 0) begin
             // invert if signs are negative
             result <= 2'b10 ^ {2 {signa}};
         end else begin
