@@ -38,11 +38,13 @@ fpadd summer (
 );
 
 wire overshoot;
+wire _unused;
 
 fpcomp magcomp (
     .dataa (sum_result),
     .datab (HALFPI),
-    .geq (overshoot)
+    .geq (overshoot),
+    .leq (_unused)
 );
 
 reg sin_reset;
