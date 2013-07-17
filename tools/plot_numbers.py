@@ -7,7 +7,7 @@ if __name__ == '__main__':
     else:
         f = open(sys.argv[1])
 
-    numbers = [int(line.rstrip()) for line in f]
+    numbers = [float(line.rstrip()) for line in f]
 
     plt.plot(numbers)
     plt.show()
