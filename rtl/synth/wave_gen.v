@@ -17,14 +17,14 @@ input [31:0] aud_amp;
 output reg [15:0] aud_data;
 output aud_done;
 
-parameter NEGPI = 32'hc0490fdb, HALFPI = 32'h3fc90fdb;
+parameter NEG2PI = 32'hc0c90fdb, PI = 32'h40490fdb;
 
 reg [31:0] theta;
 
 reg sum_in_sel;
 reg sum_reset;
 
-wire [31:0] sum_datab = (sum_in_sel == 1'b1) ? aud_step : NEGPI;
+wire [31:0] sum_datab = (sum_in_sel == 1'b1) ? aud_step : NEG2PI;
 wire [31:0] sum_result;
 wire sum_done;
 
@@ -42,7 +42,7 @@ wire _unused;
 
 fpcomp magcomp (
     .dataa (sum_result),
-    .datab (HALFPI),
+    .datab (PI),
     .geq (overshoot),
     .leq (_unused)
 );
