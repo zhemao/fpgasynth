@@ -1,6 +1,6 @@
 CFLAGS=-Wall -O2
 
-TOOLS=float2hex hex2float sinsim gensincoeff
+TOOLS=float2hex hex2float sinsim gensincoeff fpadd_exact fpmult_exact
 
 all: $(TOOLS)
 

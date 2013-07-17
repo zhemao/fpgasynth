@@ -2,6 +2,7 @@
 /hex2float
 /gensincoeff
 /sinsim
+/fp*_exact
 *.txt
 *.csv
 *.lst

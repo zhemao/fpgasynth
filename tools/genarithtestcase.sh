@@ -1,6 +1,9 @@
 #!/bin/bash
 
-varnames=(dataa datab expected)
+varnames=(dataa datab)
+
+FILE=$1
+OPERATION=$2
 
 function geninit {
 	i=$1
@@ -19,8 +22,10 @@ function repeat {
 	done
 }
 
-for i in {1..3}
+for i in {1..2}
 do
 	n=$(wc -l $1 | cut -d " " -f 1)
 	paste -d " " <(geninit $i $1) <(repeat $n "//") <(cut -d " " -f $i $1)
 done
+
+./${OPERATION}_exact < $FILE | ./verinit.py expected
