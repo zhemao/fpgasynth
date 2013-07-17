@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdint.h>
+#include "common.h"
 
 float factorial(int n)
 {
@@ -13,14 +12,6 @@ float factorial(int n)
 	}
 
 	return res;
-}
-
-void print_float_hex(FILE * stream, float num)
-{
-	uint32_t bits;
-
-	memcpy(&bits, &num, sizeof(bits));
-	fprintf(stream, "32'h%.8x\n", bits);
 }
 
 int main(int argc, char *argv[])

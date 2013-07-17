@@ -4,7 +4,7 @@ TOOLS=float2hex hex2float sinsim gensincoeff
 
 all: $(TOOLS)
 
-%: %.c
+%: %.c common.h
 	$(CC) $(LDFLAGS) $(CFLAGS) $< -o $@
 
 clean:

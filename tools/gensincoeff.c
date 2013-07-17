@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdint.h>
+#include "common.h"
 
 float factorial(int n)
 {
@@ -20,7 +19,6 @@ int main(int argc, char *argv[])
 {
 	int i, n;
 	float coeff, fact;
-	uint32_t bits;
 
 	if (argc < 2) {
 		fprintf(stderr, "Usage: %s n\n", argv[0]);
@@ -32,8 +30,7 @@ int main(int argc, char *argv[])
 	for (i = 0; i < n; i++) {
 		fact = factorial(2 * i + 1);
 		coeff = (i % 2 == 0) ? 1.0 / fact : -1.0 / fact;
-		memcpy(&bits, &coeff, sizeof(bits));
-		printf("32'h%.8x\n", bits);
+		print_float_hex(stdout, coeff);
 	}
 
 	return 0;
