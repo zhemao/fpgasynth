@@ -61,10 +61,11 @@ always @(*) begin
     end
 end
 
-reg [25:0] shiftin;
+reg signed [25:0] shiftin;
 reg [4:0] shiftby;
 reg shift_dir;
-wire [25:0] shiftout;
+wire signed [25:0] shiftout;
+reg which_shifted;
 
 barrel_shift shifter (
     .direction (shift_dir),
@@ -114,6 +115,7 @@ always @(posedge clk) begin
                         shiftin <= manty;
                         shiftby <= expsumu[4:0];
                         shift_dir <= 1;
+                        which_shifted <= 1;
                         step <= 1;
                     end else begin
                         expr <= expx;
@@ -129,6 +131,7 @@ always @(posedge clk) begin
                         shiftin <= mantx;
                         shiftby <= expsumu[4:0];
                         shift_dir <= 1;
+                        which_shifted <= 0;
                         step <= 1;
                     end else begin
                         expr <= expy;
@@ -141,7 +144,7 @@ always @(posedge clk) begin
                 expaddsub = 1;
             end
             1: begin
-                if (expsum[8] == 0) begin
+                if (which_shifted == 1) begin
                     manty <= shiftout;
                 end else begin
                     mantx <= shiftout;
