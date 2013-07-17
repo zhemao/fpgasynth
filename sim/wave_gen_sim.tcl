@@ -6,9 +6,12 @@ add wave -noupdate /wave_gen_tb/aud_req
 add wave -noupdate /wave_gen_tb/aud_data
 add wave -noupdate /wave_gen_tb/aud_done
 add wave -noupdate /wave_gen_tb/generator/theta
+add wave -noupdate /wave_gen_tb/generator/sum_result
+add wave -noupdate /wave_gen_tb/generator/sum_datab
 add wave -noupdate /wave_gen_tb/generator/base_samp
 add wave -noupdate /wave_gen_tb/generator/scaled_samp
 add wave -noupdate /wave_gen_tb/generator/next_samp
+add wave -noupdate /wave_gen_tb/generator/overshoot
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {245000 ps} 0}
 quietly wave cursor active 1
