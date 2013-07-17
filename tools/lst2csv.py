@@ -5,11 +5,13 @@ def conv_binary(binstr):
     if len(binstr) == 32:
         data = struct.pack('<I', int(binstr, 2))
         return struct.unpack('<f', data)[0]
-    else:
+    elif len(binstr) == 16:
         data = struct.pack('<H', int(binstr, 2))
         return struct.unpack('<h', data)[0]
-
-TO_SKIP = 3
+    elif binstr.startswith('St'):
+        return int(binstr[2])
+    else:
+        return int(binstr, 2)
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -17,9 +19,12 @@ if __name__ == '__main__':
     else:
         f = open(sys.argv[1])
 
-    for i in range(TO_SKIP):
-        f.readline()
-
     for line in f:
-        binstr = line.rstrip().split()[2]
-        print(conv_binary(binstr))
+        cells = line.rstrip().split()
+        try:
+            int(cells[0])
+            cells = cells[2:]
+            row = [str(conv_binary(binstr)) for binstr in cells]
+        except:
+            continue
+        print(' '.join(row))
