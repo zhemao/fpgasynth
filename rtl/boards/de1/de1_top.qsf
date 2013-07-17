@@ -569,3 +569,4 @@ set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id wave_gen_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "3840 us" -section_id wave_gen_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME wave_gen_tb -section_id wave_gen_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/wave_gen_tb.sv -section_id wave_gen_tb
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_SETUP_SCRIPT ../../../sim/wave_gen_sim.tcl -section_id eda_simulation
