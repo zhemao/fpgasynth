@@ -20,20 +20,24 @@ input [31:0] aud_step;
 input aud_req;
 output reg [31:0] aud_data;
 
-reg [31:0] osc_steps [0:4];
-
 wire [31:0] osc_output [0:4];
 wire [0:4] osc_done;
 
+reg osc_next = 1'b0;
+
 genvar ind;
 generate
-for (ind = 0; ind < 4; ind = ind + 1) 
+for (ind = 0; ind < 4; ind = ind + 1)
     begin: osc_generate
+
+    wire [7:0] exp = aud_step[30:23] + ind;
+    wire [31:0] osc_step = {aud_step[31], exp, aud_step[22:0]};
+
     wave_gen osc (
         .clk (clk),
         .reset (reset),
-        .aud_req (aud_req),
-        .aud_step (osc_steps[ind]),
+        .req_next (osc_next),
+        .aud_step (osc_step),
         .aud_primscale (osc_scale[ind]),
         .aud_secscale (aud_amp),
         .aud_data (osc_output[ind]),
