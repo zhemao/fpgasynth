@@ -1,4 +1,4 @@
-module audio_codec (
+module de_audio_codec (
     clk,
     reset_n,
     sample_end,

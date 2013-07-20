@@ -4,7 +4,7 @@
  * Adapted by Stephen A. Edwards, Columbia University, sedwards@cs.columbia.edu
  */
 
-module i2c_av_config( iCLK, iRST_N, I2C_SCLK, I2C_SDAT );
+module de_i2c_av_config( iCLK, iRST_N, I2C_SCLK, I2C_SDAT );
 
 // From host
 
