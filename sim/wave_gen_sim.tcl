@@ -2,7 +2,7 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /wave_gen_tb/clk
 add wave -noupdate /wave_gen_tb/reset
-add wave -noupdate /wave_gen_tb/aud_req
+add wave -noupdate /wave_gen_tb/req_next
 add wave -noupdate /wave_gen_tb/aud_data
 add wave -noupdate /wave_gen_tb/aud_done
 add wave -noupdate /wave_gen_tb/generator/theta

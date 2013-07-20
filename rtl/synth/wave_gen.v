@@ -1,7 +1,7 @@
 module wave_gen (
     clk,
     reset,
-    aud_req,
+    req_next,
     aud_step,
     aud_primscale,
     aud_secscale,
@@ -11,7 +11,7 @@ module wave_gen (
 
 input clk;
 input reset;
-input aud_req;
+input req_next;
 input [31:0] aud_step;
 input [31:0] aud_primscale;
 input [31:0] aud_secscale;
@@ -128,7 +128,7 @@ always @(posedge clk) begin
         aud_data <= 16'h0;
     end else begin
         case (sum_state)
-        WAIT_BEGIN :  if (aud_req == 1'b1) begin
+        WAIT_BEGIN :  if (req_next == 1'b1) begin
             sum_reset <= 1'b1;
             sum_in_sel <= 1'b1;
             sum_state <= TRIGGER_BEGIN;
@@ -158,7 +158,7 @@ always @(posedge clk) begin
         endcase
         
         case (sin_state)
-        WAIT_BEGIN : if (aud_req == 1'b1) begin
+        WAIT_BEGIN : if (req_next == 1'b1) begin
             sin_reset <= 1'b1;
             sin_state <= TRIGGER_BEGIN;
         end
@@ -173,11 +173,10 @@ always @(posedge clk) begin
         endcase
         
         case (scale_state)
-        WAIT_BEGIN : if (aud_req == 1'b1) begin
+        WAIT_BEGIN : if (req_next == 1'b1) begin
             mult_reset <= 1'b1;
             scale_sel <= 1'b0;
             scale_state <= TRIGGER_BEGIN;
-            aud_data <= next_samp;
         end
         TRIGGER_BEGIN : begin
             mult_reset <= 1'b0;
@@ -199,7 +198,7 @@ always @(posedge clk) begin
             scale_state <= WAIT_END;
         end
         WAIT_END : if (conv_done == 1'b1) begin
-            next_samp <= conv_result;
+            aud_data <= conv_result;
             scale_state <= WAIT_BEGIN;
         end
         endcase
