@@ -227,32 +227,45 @@ assign	AUD_BCLK	=	1'bz;
 assign	GPIO_0		=	36'hzzzzzzzzz;
 assign	GPIO_1		=	36'hzzzzzzzzz;
 
-sin sinunit (
-    .clk (CLOCK_50),
-    .reset (0),
-    .theta (0),
-    .prec (0)
+reg [1:0] init_counter = 2'b00;
+wire master_reset_n = init_counter[1];
+wire master_reset = !master_reset_n;
+wire master_clk = CLOCK_50;
+
+wire [1:0] sample_end;
+wire [31:0] aud_data;
+
+always @(posedge master_clk) begin
+    if (init_counter != 2'b11) 
+        init_counter <= init_counter + 1'b1;
+end
+
+de_audio_codec codec (
+    .clk (master_clk),
+    .reset_n (master_reset_n),
+    .sample_end (sample_end),
+    .audio_output (aud_data),
+    .channel_sel (2'b10),
+    
+    .AUD_ADCLRCK (AUD_ADCLRCK),
+    .AUD_ADCDAT (AUD_ADCDAT),
+    .AUD_DACLRCK (AUD_DACLRCK),
+    .AUD_DACDAT (AUD_DACDAT),
+    .AUD_BCLK (AUD_BCLK)
 );
 
-floattoint f2i (
-    .floatin (0)
+de_i2c_av_config av_conf (
+    .iCLK (master_clk),
+    .iRST_N (master_reset_n),
+    .I2C_SCLK (I2C_SCLK),
+    .I2C_SDAT (I2C_SDAT)
 );
 
-inttofloat i2f (
-    .intin (0)
-);
-
-fpcomp compare (
-    .dataa (0),
-    .datab (0)
-);
-
-audio_codec codec (
-    .clk (CLOCK_50)
-);
-
-wave_gen wg (
-    .clk (CLOCK_50)
+synth_top synth (
+    .clk (master_clk),
+    .reset (master_reset),
+    .aud_req (sample_end[1]),
+    .aud_data (aud_data)
 );
 
 endmodule
