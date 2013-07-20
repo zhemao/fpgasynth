@@ -4,7 +4,9 @@ reg clk = 1'b1;
 reg reset;
 reg aud_req;
 
-parameter aud_step = 32'h3d18aead, aud_amp = 32'h437f0000;
+parameter aud_step = 32'h3d18aead, 
+          aud_primscale = 32'h437f0000, 
+          aud_secscale = 32'h3f800000;
 
 wire [15:0] aud_data;
 wire aud_done;
@@ -14,7 +16,8 @@ wave_gen generator (
 	.reset (reset),
 	.aud_req (aud_req),
 	.aud_step (aud_step),
-	.aud_amp (aud_amp),
+	.aud_primscale (aud_primscale),
+	.aud_secscale (aud_secscale),
 	.aud_data (aud_data),
 	.aud_done (aud_done)
 );

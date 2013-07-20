@@ -3,7 +3,8 @@ module wave_gen (
     reset,
     aud_req,
     aud_step,
-    aud_amp,
+    aud_primscale,
+    aud_secscale,
     aud_data,
     aud_done
 );
@@ -12,7 +13,8 @@ input clk;
 input reset;
 input aud_req;
 input [31:0] aud_step;
-input [31:0] aud_amp;
+input [31:0] aud_primscale;
+input [31:0] aud_secscale;
 
 output reg [15:0] aud_data;
 output aud_done;
@@ -70,16 +72,21 @@ reg mult_reset;
 wire [31:0] mult_result;
 wire mult_done;
 
+reg [31:0] scaled_samp;
+
+reg scale_sel;
+wire [31:0] aud_scale = (scale_sel == 1'b1) ? aud_secscale : aud_primscale;
+wire [31:0] scale_in = (scale_sel == 1'b1) ? scaled_samp : base_samp;
+
 fpmult scaler (
     .clk (clk),
     .reset (mult_reset),
-    .dataa (base_samp),
-    .datab (aud_amp),
+    .dataa (scale_in),
+    .datab (aud_scale),
     .result (mult_result),
     .done (mult_done)
 );
 
-reg [31:0] scaled_samp;
 wire [15:0] conv_result;
 reg conv_reset;
 wire conv_done;
@@ -168,6 +175,7 @@ always @(posedge clk) begin
         case (scale_state)
         WAIT_BEGIN : if (aud_req == 1'b1) begin
             mult_reset <= 1'b1;
+            scale_sel <= 1'b0;
             scale_state <= TRIGGER_BEGIN;
             aud_data <= next_samp;
         end
@@ -177,8 +185,14 @@ always @(posedge clk) begin
         end
         WAIT_MIDDLE : if (mult_done == 1'b1) begin
             scaled_samp <= mult_result;
-            conv_reset <= 1'b1;
-            scale_state <= TRIGGER_MIDDLE;
+            if (scale_sel == 1'b0) begin
+                scale_sel <= 1'b1;
+                mult_reset <= 1'b1;
+                scale_state <= TRIGGER_BEGIN;
+            end else begin
+                conv_reset <= 1'b1;
+                scale_state <= TRIGGER_MIDDLE;
+            end
         end
         TRIGGER_MIDDLE : begin
             conv_reset <= 1'b0;
