@@ -68,7 +68,7 @@ begin
 end
 
 
-de2_i2c_controller u0 (
+de_i2c_controller u0 (
   .CLOCK(mI2C_CTRL_CLK), //  Controller Work Clock
   .I2C_SCLK(I2C_SCLK),   //  I2C CLOCK
   .I2C_SDAT(I2C_SDAT),   //  I2C DATA
