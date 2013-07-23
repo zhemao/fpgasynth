@@ -554,7 +554,7 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/floattoint_tb.sv -s
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/fpcomp_tb.sv -section_id fpcomp_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/inttofloat_tb.sv -section_id inttofloat_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../../../sim/wave_gen_tb.sv -section_id wave_gen_tb
-set_global_assignment -name SYSTEMVERILOG_FILE ../../synth/synth_top.sv
+set_global_assignment -name VERILOG_FILE ../../synth/synth_top.v
 set_global_assignment -name VERILOG_FILE ../../drivers/de/de_i2c_controller.v
 set_global_assignment -name VERILOG_FILE ../../drivers/de/de_i2c_av_config.v
 set_global_assignment -name VERILOG_FILE ../../drivers/de/de_audio_codec.v

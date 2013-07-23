@@ -2,7 +2,12 @@ module synth_top (
     clk,
     reset,
 
-    osc_scale,
+    osc_scale_data,
+    osc_scale_write,
+    osc_step_data,
+    osc_step_write,
+    osc_addr,
+    
     aud_amp,
     aud_step,
     
@@ -13,7 +18,13 @@ module synth_top (
 input clk;
 input reset;
 
-input [31:0] osc_scale [0:3];
+input [31:0] osc_scale_data;
+input osc_scale_write;
+
+input [31:0] osc_step_data;
+input osc_step_write;
+
+input [1:0] osc_addr;
 
 input [31:0] aud_amp;
 input [31:0] aud_step;
@@ -25,25 +36,33 @@ wire [0:4] osc_done;
 
 reg osc_next = 1'b0;
 
+reg [31:0] osc_scale [0:3];
+reg [31:0] osc_step [0:3];
+
+always @(posedge clk) begin
+    if (osc_scale_write == 1'b1) begin
+        osc_scale[osc_addr] <= osc_scale_data;
+    end
+    if (osc_step_write == 1'b1) begin
+        osc_step[osc_addr] <= osc_step_data;
+    end
+end
+
 genvar ind;
 generate
-for (ind = 0; ind < 4; ind = ind + 1)
+    for (ind = 0; ind < 4; ind = ind + 1)
     begin: osc_generate
-
-    wire [7:0] exp = aud_step[30:23] + ind;
-    wire [31:0] osc_step = {aud_step[31], exp, aud_step[22:0]};
-
-    wave_gen osc (
-        .clk (clk),
-        .reset (reset),
-        .req_next (osc_next),
-        .aud_step (osc_step),
-        .aud_primscale (osc_scale[ind]),
-        .aud_secscale (aud_amp),
-        .aud_data (osc_output[ind]),
-        .aud_done (osc_done[ind])
-    );
-end
+        wave_gen osc (
+            .clk (clk),
+            .reset (reset),
+            .req_next (osc_next),
+            .aud_step (osc_step[ind]),
+            .aud_primscale (osc_scale[ind]),
+            .aud_secscale (aud_amp),
+            .aud_data (osc_output[ind]),
+            .aud_done (osc_done[ind])
+        );
+    end
 endgenerate
 
 reg [2:0] step;
