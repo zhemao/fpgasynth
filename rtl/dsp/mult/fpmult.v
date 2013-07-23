@@ -19,6 +19,7 @@ reg [2:0] step;
 
 reg sign;
 reg mult_reset;
+wire mult_done;
 
 reg [31:0] manta;
 reg [31:0] mantb;
@@ -39,10 +40,11 @@ mult32 intmult (
     .reset (mult_reset),
     .dataa (manta),
     .datab (mantb),
-    .result (mantp)
+    .result (mantp),
+    .done (mult_done)
 );
 
-parameter last_step = 3'd6;
+parameter last_step = 3'd5;
 
 always @(posedge clk) begin
     if (reset == 1) begin
@@ -90,7 +92,9 @@ always @(posedge clk) begin
                 expb <= 1;
                 step = step + 1'b1;
             end
-            5: if (mantp[47] == 1'b1) begin
+            3: if (mult_done == 1'b1)
+                step = step + 1'b1;
+            4: if (mantp[47] == 1'b1) begin
                 mantr <= mantp[46:24];
                 expr <= exps;
                 done <= 1;

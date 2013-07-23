@@ -36,10 +36,11 @@ initial begin
 	expected[1] = 32'hbff00000; // -1.875
 	expected[2] = 32'h00000000; // 0
 	expected[3] = 32'h41040000; // 8.25
-	for (ind = 0; ind < 4; ind++) begin
+	
+    for (ind = 0; ind < 4; ind++) begin
 		reset = 1;
 		#20000 reset = 0;
-		#120000 assert(done == 1);
+		#200000 assert(done == 1);
 		assert(result == expected[ind]);
 	end
 end

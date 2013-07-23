@@ -41,4 +41,4 @@ configure wave -timelineunits ns
 update
 WaveRestoreZoom {0 ps} {579744 ps}
 
-run 10 us
+run 12 us
