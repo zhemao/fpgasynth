@@ -231,6 +231,7 @@ reg [1:0] init_counter = 2'b00;
 wire master_reset_n = init_counter[1];
 wire master_reset = !master_reset_n;
 wire master_clk = CLOCK_50;
+wire aud_clk;
 
 wire [1:0] sample_end;
 wire [31:0] aud_data;
@@ -240,8 +241,13 @@ always @(posedge master_clk) begin
         init_counter <= init_counter + 1'b1;
 end
 
+audpll pll (
+    .inclk0 (master_clk),
+    .c0 (aud_clk)
+);
+
 de_audio_codec codec (
-    .clk (master_clk),
+    .clk (aud_clk),
     .reset_n (master_reset_n),
     .sample_end (sample_end),
     .audio_output (aud_data),

@@ -72,11 +72,17 @@ reg [15:0] argb;
 wire [15:0] sum_res = arga + argb;
 reg [15:0] sum_temp;
 
+reg last_aud_req;
+reg next_sample;
+
 always @(posedge clk) begin
+    last_aud_req <= aud_req;
+    next_sample <= aud_req && !last_aud_req;
+
 	if (reset == 1'b1) begin
 		step <= 2'b0;
 	end else case (step)
-		0: if (aud_req == 1'b1) begin
+		0: if (next_sample == 1'b1) begin
 			aud_data <= sum_temp;
 			osc_next <= 1'b1;
 			step <= 3'd1;
