@@ -2,15 +2,11 @@ module synth_top (
     clk,
     reset,
 
-    osc_scale_data,
-    osc_scale_write,
-    osc_step_data,
-    osc_step_write,
-    osc_addr,
+    osc_ctrl_data,
+    osc_ctrl_write,
+    osc_ctrl_addr,
     
     aud_amp,
-    aud_step,
-    
     aud_req,
     aud_data
 );
@@ -18,21 +14,16 @@ module synth_top (
 input clk;
 input reset;
 
-input [31:0] osc_scale_data;
-input osc_scale_write;
-
-input [31:0] osc_step_data;
-input osc_step_write;
-
-input [1:0] osc_addr;
+input [31:0] osc_ctrl_data;
+input osc_ctrl_write;
+input [2:0] osc_ctrl_addr;
 
 input [31:0] aud_amp;
-input [31:0] aud_step;
 input aud_req;
 output reg [31:0] aud_data;
 
-wire [31:0] osc_output [0:4];
-wire [0:4] osc_done;
+wire [15:0] osc_output [0:3];
+wire [0:3] osc_done;
 
 reg osc_next = 1'b0;
 
@@ -40,11 +31,11 @@ reg [31:0] osc_scale [0:3];
 reg [31:0] osc_step [0:3];
 
 always @(posedge clk) begin
-    if (osc_scale_write == 1'b1) begin
-        osc_scale[osc_addr] <= osc_scale_data;
-    end
-    if (osc_step_write == 1'b1) begin
-        osc_step[osc_addr] <= osc_step_data;
+    if (osc_ctrl_write == 1'b1) begin
+        if (osc_ctrl_addr[2] == 1'b0)
+            osc_scale[osc_ctrl_addr[1:0]] <= osc_ctrl_data;
+        else
+            osc_step[osc_ctrl_addr[1:0]] <= osc_ctrl_data;
     end
 end
 
