@@ -24,9 +24,9 @@ reg [15:0] multb;
 wire [31:0] multr;
 
 mult16 mult (
-	.dataa (multa),
-	.datab (multb),
-	.result (multr)
+    .dataa (multa),
+    .datab (multb),
+    .result (multr)
 );
 
 reg [63:0] suma;
@@ -43,17 +43,17 @@ always @(posedge clk) begin
     end else if (step != 6) begin
         step = step + 1'b1;
     end
-	
+
     case (step)
-	0: begin
-		alow <= dataa[15:0];
-		ahigh <= dataa[31:16];
-		blow <= datab[15:0];
-		bhigh <= datab[31:16];
+    0: begin
+        alow <= dataa[15:0];
+        ahigh <= dataa[31:16];
+        blow <= datab[15:0];
+        bhigh <= datab[31:16];
 
         multa <= dataa[15:0];
         multb <= datab[31:16];
-	end
+    end
     1: begin
         suma <= {16'h0, multr, 16'h0}; 
         multa <= ahigh;
@@ -76,7 +76,7 @@ always @(posedge clk) begin
     5: begin
         result <= sumr;
     end
-	endcase
+    endcase
 end
 
 endmodule
